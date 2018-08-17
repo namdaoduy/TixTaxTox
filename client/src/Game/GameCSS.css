@@ -1,0 +1,80 @@
+.board-container {
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 100%;
+  min-width: 1050px;
+  min-height: 750px;
+  align-items: center;
+  background-image: url('./../assets/img/table.jpg');
+  background-size: cover;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  float: left;
+  height: 34px;
+  padding: 0;
+  width: 34px;
+}
+
+.square:hover {
+  background-color: #cccccccc;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  background-image: url('./../assets/img/paper.png');
+  box-shadow: 1px 2px 12px 0px black;
+  transform: rotate(3deg);
+}
+
+.squareImg {
+  width: 80%;
+}
+
+.ipx-container {
+  width: 305px;
+  height: 600px;
+  justify-content: center;
+  align-items: center;
+  background-image: url('./../assets/img/ipx.png');
+  z-index: 1000;
+  transform: rotate(-3deg);
+}
+
+.ipx-screen {
+  width: 280px;
+  height: 560px;
+  border-radius: 30px;
+  overflow: hidden;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.ipx-bezel {
+  position: absolute;
+  width: 305px;
+  height: 600px;
+  background-image: url('./../assets/img/ipx.png');
+}
+
+.ipx-screen h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 25px;
+}
+
+.ipxImg {
+  width: 40%;
+}
