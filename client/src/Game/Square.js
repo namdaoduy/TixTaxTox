@@ -22,6 +22,10 @@ export default class Square extends Component {
     this.setState({value: turn});
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextState.value != this.state.value);
+  }
+
   render() {
     return (
       <button

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { Redirect } from "react-router-dom"
 import './LandingCSS.css'
 
 export default class Landing extends Component {
@@ -7,7 +7,27 @@ export default class Landing extends Component {
     super(props);
     this.state = {
       loaded: false,
+      redirect: false,
+      rkey: null,
+      turn: null,
     }
+    this.socket = this.props.socket;
+  }
+
+  findPlayer() {
+    this.socket.emit('find', true);
+    this.socket.on('turn', (turn) => {
+      console.log("turn: " + turn);
+      this.setState({ turn: turn })
+    })
+    this.socket.on('match', (rkey) => {
+      console.log(rkey);
+      this.setState({ rkey: rkey }, () => {
+        setTimeout(() => {
+          this.setState({ redirect: true })
+        }, 1000)
+      })
+    })
   }
 
   componentDidMount() {
@@ -17,14 +37,27 @@ export default class Landing extends Component {
   }
 
   render() {
-    return(
+    if (this.state.redirect) return(
+      <Redirect to={{
+        pathname: '/game',
+        state: { 
+          rkey: this.state.rkey, 
+          turn: this.state.turn  
+        }
+      }} />
+    )
+    else return(
       <div 
         style={styles.container} 
         className={this.state.loaded ? 'loaded' : ''}>
         <img 
           src={require("../assets/img/title.svg")} 
           style={styles.title} />
-        <Link style={styles.btnPlay} to={'/game'}>FIND PLAYER</Link>
+        <button
+          onClick={() => this.findPlayer()} 
+          style={styles.btnPlay}>
+          FIND PLAYER
+        </button>
         
         <div id="loader-wrapper">
           <img src={require('./../assets/img/giaw-square.svg')} id="loader"></img>
