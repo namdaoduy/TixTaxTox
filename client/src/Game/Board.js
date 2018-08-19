@@ -31,10 +31,11 @@ export default class Board extends Component {
 
   doCheck = (row, col) => {
     this.props.game.sendCheck(row, col);
-    let turn = this.props.game.state.turn;
+    let { turn, movecount } = this.props.game.state;
     this.data[row][col] = turn;
     this.checkWin(row, col, turn);
     this.props.game.setState({ 
+      movecount: movecount + 1,
       turn: turn ? 0 : 1,
       turnstart: Date.now(),
     });
@@ -58,7 +59,7 @@ export default class Board extends Component {
       else if (data[row][j] == !val) { count-= 0.3; break; }
       else break;
     }
-    if (Math.round(count) >= 5) return this.win(val);
+    if (Math.round(count) >= 5) return this.props.win(val);
 
     count = 1;
     i = row;
@@ -73,7 +74,7 @@ export default class Board extends Component {
       else if (data[i][col] == !val) { count-= 0.3; break; }
       else break;
     }
-    if (Math.round(count) >= 5) return this.win(val);
+    if (Math.round(count) >= 5) return this.props.win(val);
 
     count = 1;
     i = row;
@@ -90,7 +91,7 @@ export default class Board extends Component {
       else if (data[i][j] == !val) { count-= 0.3; break; }
       else break;
     }
-    if (Math.round(count) >= 5) return this.win(val);
+    if (Math.round(count) >= 5) return this.props.win(val);
 
     count = 1;
     i = row;
@@ -107,12 +108,7 @@ export default class Board extends Component {
       else if (data[i][j] == !val) { count-= 0.3; break; }
       else break;
     }
-    if (Math.round(count) >= 5) return this.win(val);
-  }
-
-  win(result) {
-    alert("Player " + result +  " win!");
-    return 0;
+    if (Math.round(count) >= 5) return this.props.win(val);
   }
 
   componentDidMount() {

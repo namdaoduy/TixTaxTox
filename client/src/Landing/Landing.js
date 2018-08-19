@@ -1,5 +1,8 @@
 import React, { Component } from "react"
 import { Redirect } from "react-router-dom"
+import { AwesomeButtonProgress } from 'react-awesome-button';
+import 'react-awesome-button/dist/styles.css';
+import 'react-awesome-button/dist/themes/theme-blue.css';
 import './LandingCSS.css'
 
 export default class Landing extends Component {
@@ -14,15 +17,16 @@ export default class Landing extends Component {
     this.socket = this.props.socket;
   }
 
-  findPlayer() {
+  findPlayer(el, next) {
     this.socket.emit('find', true);
     this.socket.on('turn', (turn) => {
       console.log("turn: " + turn);
       this.setState({ turn: turn })
     })
     this.socket.on('match', (rkey) => {
+      next();
       console.log(rkey);
-      this.setState({ rkey: rkey }, () => {
+      this.setState({ rkey: rkey, loaded: false }, () => {
         setTimeout(() => {
           this.setState({ redirect: true })
         }, 1000)
@@ -48,16 +52,18 @@ export default class Landing extends Component {
     )
     else return(
       <div 
-        style={styles.container} 
-        className={this.state.loaded ? 'loaded' : ''}>
+        className={'land-container' + (this.state.loaded ? ' loaded' : '')}>
         <img 
           src={require("../assets/img/title.svg")} 
-          style={styles.title} />
-        <button
-          onClick={() => this.findPlayer()} 
-          style={styles.btnPlay}>
+          className="land-title" />
+        <AwesomeButtonProgress
+          action={(el, next) => this.findPlayer(el, next)}
+          loadingLabel="Finding ..."	
+          resultLabel="MATCH !"
+          size="large"
+          type="primary">
           FIND PLAYER
-        </button>
+        </AwesomeButtonProgress>
         
         <div id="loader-wrapper">
           <img src={require('./../assets/img/giaw-square.svg')} id="loader"></img>
@@ -66,36 +72,5 @@ export default class Landing extends Component {
         </div>
       </div>
     )
-  }
-}
-
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'column'
-  },
-  
-  title: {
-    width: '80%',
-    maxWidth: 500,
-    maxHeight: '50vh',
-    marginTop: '10vh',
-    marginBottom: '10vh',
-  },
-
-  btnPlay: {
-    width: '60%',
-    maxWidth: 500,
-    height: 60,
-    padding: 10,
-    borderRadius: 30,
-    backgroundColor: '#FA7921',
-    letterSpacing: 5,
-    fontSize: 20,
-    fontFamily: 'Orbitron',
-    textAlign: 'center',
-    lineHeight: '40px',
   }
 }

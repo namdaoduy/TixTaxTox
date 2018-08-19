@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 app.use(logger('dev'));
 
 var room = 0;
+var timeup = {};
 
 io.on('connection', function(socket){
   console.log('new user');
@@ -25,36 +26,40 @@ io.on('connection', function(socket){
     socket.removeAllListeners('turn');
   });
 
-  socket.on('find', function(){
+  socket.on('find', () => {
     let rkey = 'room ' + room;
-    var timeup;
 
     socket.join( rkey, () => {
       let num = io.sockets.adapter.rooms[rkey].length;
       io.to(`${socket.id}`).emit("turn", num-1);
       if (num == 2) {
+        console.log("match by " + socket.id)
         room++;
         io.to(rkey).emit('match', rkey);
         setTimeout(() => {
-          console.log("start from " + socket.id);
           io.to(rkey).emit('start', Date.now());
-          timeup = setInterval(() => {
+          timeup[rkey] = setInterval(() => {
             io.to(rkey).emit('timeup');
           }, 30000)
-        }, 3000)
+        }, 5000)
       }
     });
 
     socket.on('check', (cord) => {
-      clearInterval(timeup);
-      socket.broadcast.to(rkey).emit('check pliz', cord);
-      timeup = setInterval(() => {
+      clearInterval(timeup[rkey]);
+      timeup[rkey] = setInterval(() => {
         io.to(rkey).emit('timeup');
       }, 30000)
+      socket.broadcast.to(rkey).emit('check pliz', cord);
     })
 
     socket.on('message', (text) => {
-      socket.broadcast.to(rkey).emit('message', text);
+      socket.to(rkey).emit('message to', text);
+    })
+
+    socket.on('disconnect', () => {
+      io.to(rkey).emit('player disconnect');
+      clearInterval(timeup[rkey]);
     })
   })
 });

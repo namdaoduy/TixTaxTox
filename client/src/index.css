@@ -1,5 +1,15 @@
 * {
   box-sizing: border-box;
+  font-family: 'Orbitron';
+  cursor: url('./assets/img/pointer-1.svg'),auto;
+}
+
+input {
+  cursor: url('./assets/img/pointer-2.svg'), text;
+}
+
+button {
+  cursor: url('./assets/img/pointer-3.svg'), pointer;
 }
 
 *:focus {
