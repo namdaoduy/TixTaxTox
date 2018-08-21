@@ -14,23 +14,25 @@ app.use(logger('dev'));
 var room = 0;
 var timeup = {};
 
+let removeAll = (socket) => {
+  var events = ['check','message','end game'];
+  for (var e of events) {
+    socket.removeAllListeners(e);
+  }
+}
+
 io.on('connection', function(socket){
   console.log('new user');
 
   socket.on('disconnect', function(){
     console.log('user disconnected');
-    socket.removeAllListeners('find');
-    socket.removeAllListeners('check');
-    socket.removeAllListeners('message');
-    socket.removeAllListeners('match');
-    socket.removeAllListeners('turn');
   });
 
   socket.on('find', () => {
-    let rkey = 'room ' + room;
+    var rkey = 'room ' + room;
 
     socket.join( rkey, () => {
-      let num = io.sockets.adapter.rooms[rkey].length;
+      var num = io.sockets.adapter.rooms[rkey].length;
       io.to(`${socket.id}`).emit("turn", num-1);
       if (num == 2) {
         console.log("match by " + socket.id)
@@ -61,6 +63,12 @@ io.on('connection', function(socket){
       io.to(rkey).emit('player disconnect');
       clearInterval(timeup[rkey]);
     })
+
+    socket.on('end game', () => {
+      socket.leave(rkey);
+      removeAll(socket);
+    })
+
   })
 });
 
@@ -68,6 +76,6 @@ app.get('/', function(req, res){
   res.send('<h1>Omae wa mou shindeiru!</h1>');
 });
 
-http.listen(3001, function(){
-  console.log('listening on *:3001');
+http.listen(3000, function(){
+  console.log('listening on *:3000');
 });

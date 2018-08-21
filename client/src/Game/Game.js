@@ -68,13 +68,14 @@ export default class Game extends Component {
       started: false,
     });
     this.winner = (result == this.state.myturn);
+    this.starttime = Math.round((Date.now() - this.starttime) / 1000);
     setTimeout(() => {
       this.setState({ended: true})
     }, 2000)
   }
 
   onResult = () => {
-    this.socket.disconnect();
+    this.socket.emit('end game');
     this.setState({
       loaded: false,
     })
@@ -84,7 +85,7 @@ export default class Game extends Component {
         state: { 
           win: this.winner,
           movecount: this.state.movecount,
-          time: Math.round((Date.now() - this.starttime) / 1000),
+          time: this.starttime,
           gofirst: this.state.myturn,
         } 
       });
@@ -122,7 +123,6 @@ export default class Game extends Component {
         started: false,
       })
       setTimeout(() => {
-        //this.props.history.push('/');
         this.win(this.state.myturn)
       }, 3000);
     })

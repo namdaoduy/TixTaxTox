@@ -117,7 +117,7 @@
   transition: all 0.3s ease;
   padding-left: 2vw;
   padding-right: 2vw;
-  font-family: 'Orbitron';
+  font-family: 'Bangers', cursive;
   font-size: 4vh;
 }
 
@@ -139,7 +139,7 @@
   font-size: 4vh;
   padding-left: 2vw;
   padding-right: 2vw;
-  font-family: 'Orbitron';
+  font-family: 'Bangers', cursive;
   background-color: white;
   opacity: 0.8;
   transition: all 0.5s ease;
@@ -203,7 +203,8 @@
 .overlay-text {
   color: white;
   font-family: 'Orbitron';
-  font-size: 10vh;
+  font-size: 8vh;
+  text-align: center;
 }
 
 .btn-result {

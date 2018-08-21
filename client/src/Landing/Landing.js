@@ -18,12 +18,13 @@ export default class Landing extends Component {
   }
 
   findPlayer(el, next) {
-    this.socket.emit('find', true);
     this.socket.on('turn', (turn) => {
       console.log("turn: " + turn);
       this.setState({ turn: turn })
     })
     this.socket.on('match', (rkey) => {
+      this.socket.removeAllListeners('turn');
+      this.socket.removeAllListeners('match');
       next();
       console.log(rkey);
       this.setState({ rkey: rkey, loaded: false }, () => {
@@ -32,6 +33,7 @@ export default class Landing extends Component {
         }, 1000)
       })
     })
+    this.socket.emit('find', true);
   }
 
   componentDidMount() {
