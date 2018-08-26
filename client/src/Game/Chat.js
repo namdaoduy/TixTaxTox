@@ -25,7 +25,7 @@ export default class Chat extends Component {
       <div className='chat-container'>
         <img 
           onClick={this.onSend}
-          src={require('./../assets/img/chat.svg')} 
+          src={require('./../assets/img/chat.svg')} alt=""
           className='chat-icon'
         />
         <input 

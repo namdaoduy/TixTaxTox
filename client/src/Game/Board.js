@@ -126,7 +126,7 @@ export default class Board extends Component {
   }
 
   disableBoard = () => {
-    if (this.props.game.state.turn != this.props.game.state.myturn) {
+    if (this.props.game.state.turn != this.props.game.myturn) {
       return " disable"
     }
     return ""

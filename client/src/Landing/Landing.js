@@ -18,21 +18,24 @@ export default class Landing extends Component {
   }
 
   findPlayer(el, next) {
+    this.socket.removeAllListeners('turn');
+    this.socket.removeAllListeners('match');
+
     this.socket.on('turn', (turn) => {
-      console.log("turn: " + turn);
       this.setState({ turn: turn })
     })
+
     this.socket.on('match', (rkey) => {
       this.socket.removeAllListeners('turn');
       this.socket.removeAllListeners('match');
       next();
-      console.log(rkey);
       this.setState({ rkey: rkey, loaded: false }, () => {
         setTimeout(() => {
           this.setState({ redirect: true })
         }, 1000)
       })
     })
+    
     this.socket.emit('find', true);
   }
 
@@ -56,7 +59,7 @@ export default class Landing extends Component {
       <div 
         className={'land-container' + (this.state.loaded ? ' loaded' : '')}>
         <img 
-          src={require("../assets/img/title.svg")} 
+          src={require("../assets/img/title.svg")} alt=""
           className="land-title" />
         <AwesomeButtonProgress
           action={(el, next) => this.findPlayer(el, next)}
@@ -68,7 +71,7 @@ export default class Landing extends Component {
         </AwesomeButtonProgress>
         
         <div id="loader-wrapper">
-          <img src={require('./../assets/img/giaw-square.svg')} id="loader"></img>
+          <img src={require('./../assets/img/giaw-square.svg')} id="loader" alt=""></img>
           <div className="loader-section section-left"></div>
           <div className="loader-section section-right"></div>
         </div>

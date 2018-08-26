@@ -38,7 +38,7 @@ export default class EndGame extends Component {
       return (
         <div className={"end-container" + (this.state.loaded ? ' loaded' : '')}>
           <img className='end-title' 
-            src={require('./../assets/img/title.svg')} />
+            src={require('./../assets/img/title.svg')} alt="" />
           <h1 className='end-result'>
             {this.win ? 'WIN' : 'LOSS'}
           </h1>

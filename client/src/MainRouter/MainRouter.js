@@ -13,9 +13,12 @@ export default class MainRouter extends Component {
     return(
       <Router>
         <div>
-          <Route exact path="/" render={(props) => <Landing key="landing" {...props} socket={socket}/>}/>
-          <Route path="/game" render={(props) => <Game key="game" {...props} socket={socket}/>}/>
-          <Route path="/end" render={(props) => <EndGame key="end" {...props} />}/>
+          <Route exact path="/" render={(props) => 
+            <Landing key={"landing" + Date.now()} {...props} socket={socket}/>}/>
+          <Route path="/game" render={(props) => 
+            <Game key={"game" + Date.now()} {...props} socket={socket}/>}/>
+          <Route path="/end" render={(props) => 
+            <EndGame key={"end" + Date.now()} {...props} />}/>
           <Redirect from='*' to='/' />
         </div>
       </Router>

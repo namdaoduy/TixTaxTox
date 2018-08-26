@@ -5,21 +5,26 @@ export default class Square extends Component {
     super(props);
     this.state = {
       value: null,
+      checked: false
     };
+    this.button = React.createRef();
   }
 
   renderImg = (val) => {
     if (val === null) return;
     return val == 1 ?
-      <img src={require('./../assets/img/o.svg')} className='squareImg' /> :
-      <img src={require('./../assets/img/x.svg')} className='squareImg' />
+      <img src={require('./../assets/img/o.svg')} className='squareImg' alt=""/> :
+      <img src={require('./../assets/img/x.svg')} className='squareImg' alt=""/>
   }
 
   _doCheck = () => {
-    if (this.state.value != null) return;
+    if (this.state.checked === true) return;
     let { handler, row, col } = this.props;
     let turn = handler(row, col);
-    this.setState({value: turn});
+    this.setState({
+      value: turn,
+      checked: true
+    });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -29,7 +34,7 @@ export default class Square extends Component {
   render() {
     return (
       <button
-        className="square"
+        className={"square" + (this.state.checked ? " checked" : "")}
         onClick={this._doCheck}
       >
         {this.renderImg(this.state.value)}

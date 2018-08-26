@@ -104,9 +104,13 @@
 
 
 .aws-btn {
-  --button-font-family: 'Orbitron';
+  --button-font-family: 'Orbitron', sans-serif;
   --button-large-height: 10vh;
   --button-large-width: 50vh;
+  --button-medium-height: 10vh;
+  --button-medium-width: 35vh;
+  --button-icon-height: 10vh;
+  --button-icon-width: 10vh;
   --button-default-font-size: 3vh;
   --button-raise-level: 7px;    
   --button-default-border-radius: 8px;

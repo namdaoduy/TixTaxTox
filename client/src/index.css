@@ -1,6 +1,18 @@
+@font-face {
+  font-family: 'Orbitron';
+  font-display: fallback;
+  src: url('./assets/font/Orbitron-Black.ttf');
+}
+
+@font-face {
+  font-family: 'Bangers';
+  font-display: fallback;
+  src: url('./assets/font/Bangers-Regular.ttf');
+}
+
 * {
   box-sizing: border-box;
-  font-family: 'Orbitron';
+  font-family: 'Orbitron', sans-serif;
   cursor: url('./assets/img/pointer-1.svg'),auto;
 }
 

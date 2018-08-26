@@ -37,7 +37,7 @@ export default class IphoneX extends Component {
     return(
       <div className={'ipx-container' + this.vibrate()}>
         <div className='ipx-screen'>
-          <h3>{this.props.game.state.myturn == this.props.game.state.turn ?
+          <h3>{this.props.game.myturn == this.props.game.state.turn ?
             'Your Turn' : 'Opponent\'s Turn'}</h3>
           {this.renderImg(this.props.game.state.turn)}
           <h2 
